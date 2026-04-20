@@ -1,13 +1,12 @@
-#  Rust-Metrics
+# 🚀 Rust-Metrics: The Deterministic Telemetry Engine
 
 ![Rust](https://img.shields.io/badge/rust-%23E32A1C.svg?style=for-the-badge&logo=rust&logoColor=white)
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![gRPC](https://img.shields.io/badge/gRPC-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
 ![Zero-Copy](https://img.shields.io/badge/Zero--Copy-rkyv-orange?style=for-the-badge)
-![Status](https://img.shields.io/badge/status-active-brightgreen?style=for-the-badge)
-![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ---
@@ -15,32 +14,32 @@
 ## 🇧🇷 Português
 
 ### 🎯 Por que Rust-Metrics?
-O nome **Rust-Metrics** nasceu da necessidade de eliminar a incerteza. Em sistemas de telemetria de alta escala, o maior inimigo é o **Garbage Collector (GC)**. Linguagens como Go e Java sofrem pausas imprevisíveis que resultam em perda de pacotes e latência instável. 
+O **Rust-Metrics** nasceu para eliminar a incerteza. Em telemetria de alta escala, o "Garbage Collector" (GC) de linguagens como Go e Java causa pausas que resultam em perda de dados. Nosso motor utiliza Rust e C++ para garantir um processamento **determinístico** e latência estável em nível de microssegundos.
 
-O **Rust-Metrics** utiliza Rust para garantir processamento **determinístico**: sem pausas, sem perda de dados, apenas performance bruta em nível de hardware.
+### 🏗️ Arquitetura Híbrida e Poliglota
+Elevamos o projeto para um nível industrial, integrando cinco linguagens onde cada uma desempenha seu papel fundamental:
 
-### 🏗️ Arquitetura Poliglota (Novas Integrações)
-Para tornar o projeto uma solução completa, integramos o motor Rust com as melhores ferramentas de cada domínio:
-
-1.  **Go (Control Plane):** Adicionado em `sdk-go/` para atuar como orquestrador. O Go é o padrão ouro para infraestrutura cloud e Kubernetes. Ele gerencia o ciclo de vida do motor Rust.
-2.  **Python (Analysis Plane):** Adicionado em `sdk-python/`. Enquanto o Rust processa, o Python utiliza bibliotecas como **Polars** e **Pandas** para análise estatística e detecção de anomalias em tempo real.
-3.  **TypeScript (Visual Plane):** Adicionado em `dashboard-ts/`. Um frontend moderno que consome dados via **gRPC-Web**, garantindo que os gráficos reflitam o que está acontecendo no motor com o mínimo de atraso visual.
+1.  **C++ (Native Core):** Localizado em `native-core/`. Responsável por cálculos matemáticos intensivos e otimizações de hardware (SIMD). Representa a integração com sistemas legados e performance bruta via FFI.
+2.  **Rust (The Engine):** O coração do sistema. Gerencia a segurança de memória, concorrência assíncrona e a comunicação segura com o módulo C++.
+3.  **Go (Control Plane):** O orquestrador de infraestrutura. Ideal para gerenciar deploys, containers e a saúde dos nós de telemetria.
+4.  **Python (Analysis Plane):** Transforma dados brutos em insights usando Polars e Machine Learning para detecção de anomalias.
+5.  **TypeScript (Visual Plane):** Dashboard de alta fidelidade que consome streams binários via gRPC-Web.
 
 ---
 
 ## 🇺🇸 English
 
 ### 🎯 Why Rust-Metrics?
-**Rust-Metrics** was engineered to kill uncertainty. In high-throughput telemetry, the **Garbage Collector (GC)** is the enemy. Languages like Go and Java have unpredictable pauses that cause packet loss and jitter.
+**Rust-Metrics** was engineered to kill uncertainty. In high-throughput telemetry, Garbage Collection (GC) pauses are the enemy. By leveraging Rust and C++, we provide **deterministic** processing: no jitter, no data loss, just raw hardware-level performance.
 
-**Rust-Metrics** leverages Rust to provide **deterministic** processing: no pauses, no data loss, just raw hardware-level performance.
+### 🏗️ Hybrid & Polyglot Architecture
+We've scaled this project to an industrial level, integrating five languages where each plays a strategic role:
 
-### 🏗️ Polyglot Architecture (New Tooling)
-To turn this engine into a full-scale ecosystem, we've integrated Rust with the best-in-class tools for every domain:
-
-1.  **Go (Control Plane):** Located in `sdk-go/`. Go is the industry standard for cloud infrastructure. It acts as the orchestrator, managing node health and configuration.
-2.  **Python (Analysis Plane):** Located in `sdk-python/`. While Rust handles the ingestion, Python uses **Polars** and **ML libraries** to perform real-time statistical analysis and anomaly detection.
-3.  **TypeScript (Visual Plane):** Located in `dashboard-ts/`. A modern UI that consumes data via **gRPC-Web**, ensuring dashboards stay synced with the engine with microsecond-level precision.
+1.  **C++ (Native Core):** Located in `native-core/`. Handles heavy math and hardware-level optimizations (SIMD). It showcases FFI integration and raw legacy-speed capabilities.
+2.  **Rust (The Engine):** The system's heart. Manages memory safety, async concurrency, and secure interfacing with the C++ native module.
+3.  **Go (Control Plane):** The infrastructure orchestrator. Perfect for managing deployments, containers, and telemetry node health.
+4.  **Python (Analysis Plane):** Converts raw data into insights using Polars and ML for real-time anomaly detection.
+5.  **TypeScript (Visual Plane):** High-fidelity dashboard consuming binary streams via gRPC-Web for real-time visualization.
 
 ---
 
@@ -48,35 +47,42 @@ To turn this engine into a full-scale ecosystem, we've integrated Rust with the 
 
 | Camada / Layer | Ferramenta / Tool | Propósito / Purpose |
 | :--- | :--- | :--- |
-| **Engine Core** | `Rust` | Processamento determinístico de baixa latência. |
-| **Runtime** | `Tokio` | I/O assíncrono para lidar com milhões de conexões. |
-| **Serialization** | `gRPC / Protobuf` | Contrato universal entre Rust, Go, Python e TS. |
-| **Zero-Copy** | `rkyv` | Desserialização sem alocação na Heap (Velocidade máxima). |
-| **Orchestration** | `Go` | Gerenciamento de containers e API de controle. |
-| **Analytics** | `Python / Polars` | Processamento de dados e inteligência artificial. |
-| **Frontend** | `TS / React` | Interface visual de alta fidelidade e tempo real. |
+| **Native Compute** | `C++` | Otimização SIMD e Intrinsics de CPU. |
+| **Engine Core** | `Rust` | Orquestração segura e I/O assíncrono (Tokio). |
+| **FFI Bridge** | `libc / cc crate` | Ponte de alta performance entre Rust e C++. |
+| **Serialization** | `gRPC / Protobuf` | Contrato universal (Single Source of Truth). |
+| **Infrastructure** | `Go` | Orquestração de containers e Control Plane. |
+| **Analytics** | `Python / Polars` | Inteligência estatística e detecção de anomalias. |
+| **Frontend** | `TS / React` | Interface visual de baixa latência. |
 
-----
-
-**🚀 Como Iniciar / Quick Start**
-Contratos: make gen-proto (Gera o código para todas as linguagens).
-
-Motor: cargo run --release (Inicia o servidor gRPC em Rust).
-
-Análise: python sdk-python/client.py (Inicia o consumo de dados).
 ---
+**🚀 Como Iniciar / Quick Start**
+Compilar Nativo:
+*O Rust compilará o C++ automaticamente via build.rs.*
+
+Gerar Contratos: 
+*make gen-proto*
+
+Executar Motor: 
+*cargo run --release*
+
+Analisar: 
+*python sdk-python/client.py*
 
 **📜 Licença / License:** 
 *MIT License. Free for all.*
+
+---
 
 
 ## 📂 Estrutura de Pastas / Project Structure
 
 ```text
-├── src/                # Motor Principal em Rust
-├── proto/              # Contratos gRPC (Fonte da Verdade)
-├── sdk-go/             # Orquestrador e Ferramentas Cloud (Go)
-├── sdk-python/         # Análise de Dados e ML (Python)
-├── dashboard-ts/       # Interface Web (TypeScript/React)
-├── benches/            # Relatórios de Performance (Criterion)
-└── .github/workflows/  # CI/CD de Performance e Automação
+├── src/                # Rust Engine (Safe Core)
+├── native-core/        # C++ Native Module (Performance Core)
+├── proto/              # gRPC Contracts (Source of Truth)
+├── sdk-go/             # Cloud Orchestrator (Go)
+├── sdk-python/         # Data Analysis (Python)
+├── dashboard-ts/       # Real-time UI (TypeScript)
+├── benches/            # Performance Benchmarks (Criterion)
+└── .github/workflows/  # CI/CD & Auto-Profiling
