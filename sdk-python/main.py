@@ -8,25 +8,29 @@ import telemetry_pb2
 import telemetry_pb2_grpc
 
 def run():
-
     channel = grpc.insecure_channel('localhost:50051')
-  
     stub = telemetry_pb2_grpc.MetricsIngestorStub(channel)
 
-    try:
-      
-        request = telemetry_pb2.MetricRequest(sensor_id="PYTHON_01", value=25.5)
-      
-        print("Tentando enviar dado para o Rust...")
-        response = stub.IngestMetric(request, timeout=5) 
-        
-        print(f" Resposta: {response.message}")
+    # O gRPC Stream exige um iterador (um gerador de dados)
+    def generate_metrics():
+        messages = [
+            telemetry_pb2.MetricRequest(sensor_id="PYTHON_01", value=25.5),
+            telemetry_pb2.MetricRequest(sensor_id="PYTHON_02", value=30.2)
+        ]
+        for m in messages:
+            print(f"Enviando: {m.sensor_id}")
+            yield m
 
+    try:
+        print("Conectando ao Stream do Rust...")
+      
+        response = stub.SendMetricsStream(generate_metrics(), timeout=5)
+        print(f" Resposta do Rust: {response.message}")
+
+    except AttributeError:
+        print(" Erro: A função SendMetricsStream não foi encontrada no stub.")
     except grpc.RpcError as e:
-        print(f" Erro de RPC: {e.code()}")
-        print("DICA: O servidor Rust (localhost:50051) está ligado?")
-    except Exception as e:
-        print(f" Outro erro: {e}")
+        print(f" Erro de RPC: {e.code()} - {e.details()}")
 
 if __name__ == '__main__':
     run()
